@@ -29,8 +29,15 @@ esac
 if [ -n "${MIHU_VERSION:-}" ]; then
   VERSION="$MIHU_VERSION"
 else
-  VERSION="$(curl -sSLI -o /dev/null -w '%{url_effective}' "https://github.com/$REPO/releases/latest" | sed 's#.*/tag/##')"
-  [ -n "$VERSION" ] || err "could not determine latest version"
+  LATEST_URL="$(curl -sSLI -o /dev/null -w '%{url_effective}' "https://github.com/$REPO/releases/latest")"
+  case "$LATEST_URL" in
+    */releases/tag/*) VERSION="${LATEST_URL##*/tag/}" ;;
+    *) err "no release is published yet at https://github.com/$REPO/releases" ;;
+  esac
+  case "$VERSION" in
+    v[0-9]*|[0-9]*) ;;
+    *) err "unexpected version '$VERSION' from $LATEST_URL" ;;
+  esac
 fi
 VERSION_NUM="${VERSION#v}"
 

@@ -6,7 +6,12 @@ $Arch = if ([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture 
 if ($env:MIHU_VERSION) {
   $Version = $env:MIHU_VERSION
 } else {
-  $Version = (Invoke-RestMethod "https://api.github.com/repos/$Repo/releases/latest" -Headers @{ "User-Agent" = "mihu-installer" }).tag_name
+  try {
+    $Version = (Invoke-RestMethod "https://api.github.com/repos/$Repo/releases/latest" -Headers @{ "User-Agent" = "mihu-installer" }).tag_name
+  } catch {
+    throw "no release is published yet at https://github.com/$Repo/releases"
+  }
+  if (-not $Version) { throw "could not determine the latest version" }
 }
 $VersionNum = $Version.TrimStart("v")
 $Asset = "mihu-cli_${VersionNum}_windows_${Arch}.zip"
