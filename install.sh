@@ -15,7 +15,7 @@ need tar
 OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
 case "$OS" in
   darwin|linux) ;;
-  mingw*|msys*|cygwin*) err "on Windows use: powershell -c \"irm https://mihu.ai/install.ps1 | iex\" or 'scoop install mihu'" ;;
+  mingw*|msys*|cygwin*) err "on Windows run in PowerShell: irm https://mihu.ai/install.ps1 | iex" ;;
   *) err "unsupported OS: $OS" ;;
 esac
 
