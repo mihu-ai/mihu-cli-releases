@@ -22,4 +22,4 @@ Every archive is listed in `checksums.txt` (SHA-256).
     mihu agents list
     mihu --help
 
-Documentation: https://developers.mindhunters.ai
+Documentation: [https://developers.mindhunters.ai](https://developers.mihu.ai/cli/overview)
